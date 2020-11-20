@@ -19,4 +19,4 @@ deploy:
   edge: true 
   app: devopslab-lucasborges
   on:
-      branches: main
+      branch: main
