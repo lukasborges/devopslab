@@ -11,9 +11,14 @@ python:
 install:                                                                                                                                                                                                 
   - pip install flask
 
+addons:
+  sonarcloud:
+    organization: lukasborges
+    token: ${SONAR_TOKEN}
+
 script:
-    - python -m unittest -v test
-    - echo "passei por aqui"
+    - python -m unittest -v test || travis_terminate 1;
+    - sonar-scanner || travis_terminate 1;
 
 # Definir o Deploy no Heroku
 deploy:
