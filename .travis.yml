@@ -40,3 +40,5 @@ jobs:
         app: devopslab-lucasborges
         on:
           branch: main
+    notifications:
+        slack: devopstools-group:ueh8F8YhYqHUhHaWWSkC6FUo
