@@ -1,45 +1,35 @@
-# Linguagem Utilizada para Desenvolver a Aplicação                                                                                                                                                       
-language: python                                                                                                                                                                                         
-
-# Versão que a aplicação suporta.                                                                                                                                                                        
-python:                                                                                                                                                                                                  
-  - "3.7.9"                                                                                                                                                                                              
-
+language: python
+python:
+- 3.7.9
 os: linux
 dist: xenial
-
 jobs:
   include:
-    - stage: Testes
-
-      name: "Testes Unitarios"
-      # Instalação de Módulos que são necessários para a Aplicação.
-      install:
-        - pip install flask flask-wtf coverage
-      script:  # Defini o script de Teste que deve rodar toda vez que o código for alterado.
-        - coverage run test.py || travis_terminate 1;
-        - coverage report app.py || travis_terminate 1;
-        - coverage xml app.py || travis_terminate 1;
-
-    - script:
-        - sonar-scanner || travis_terminate 1;
-      name: "Testes de Qualidade e Seguranca"
-      addons:
-        sonarcloud:
-          organization: lukasborges
-          token: ${SONAR_TOKEN}
-
-    - stage: Deploy
-      script: skip
-      # Definir o Deploy no Heroku
-      deploy:
-        provider: heroku
-        strategy: api
-        api_key: $HEROKU_API_KEY
-        edge: true
-        app: devopslab-lucasborges
-        on:
-          branch: main
+  - stage: Testes
+    name: Testes Unitarios
+    install:
+    - pip install flask flask-wtf coverage
+    script:
+    - coverage run test.py || travis_terminate 1;
+    - coverage report app.py || travis_terminate 1;
+    - coverage xml app.py || travis_terminate 1;
+  - script:
+    - sonar-scanner || travis_terminate 1;
+    name: Testes de Qualidade e Seguranca
+    addons:
+      sonarcloud:
+        organization: lukasborges
+        token: "${SONAR_TOKEN}"
+  - stage: Deploy
+    script: skip
+    deploy:
+      provider: heroku
+      strategy: api
+      api_key: "$HEROKU_API_KEY"
+      edge: true
+      app: devopslab-lucasborges
+      on:
+        branch: main
 notifications:
-    slack: devopstools-group:ueh8F8YhYqHUhHaWWSkC6FUo
-
+  slack:
+    secure: VXov1ho9KJWWKkB89rniQ//93fiq6gUdXn9puDqZRdnJEjpsm3w2o1tRSe4hcpFj9GNIhPXFuNEVHG35iPpYLZ64risCK7pFn7pVEiiYgprc/IlbJb4yoBSzqZ4GP/ZCe1LUmABGdaTx0WUJ+ZIyfEhmX0YO9E/Ckc3PQpqmrn3Ghl91K0c/rSBLr4BwCyYmJlmFuOgPr4Qza/o6LYEMyDXom0wJLQCIEEmWiqPwEDvJQK//djydXwITfI9Ihws1aiOlFmOoIlLmbsDIV3uIqxS3sJgvmgS774kmW2AVNGLK2AlMVc3gyz7S+Jcpe+SeFaDdoMHFi3iw9F39eQwRjhZvUl17auzsAzobF81joWmmbv/d5ve5Xdr3/cQjgHVvJakP4B3krV64Ia4mB3mQDhRUxGqtMrOyMXQyefji4M9hBHHnAVtgZfx3n1sqN/kv//ok2QYrGsDrTVzcaxrEn21t7uqcANFKRymGrux/yOv/6KEOBMx13zC6RuzcQfBqksILNobvcFOkUaPBb5P1wP6MqBroJkA05V6EuCAFjxpV09sCY4IzZKMllRuiz2YJJYjaRNgl+SEa1ZWIq1z2wD47RT0/ln47uZ0FqJz5gt8siy26TSI+0e3xPFBoIIp27uf/CEQp1iGSnHx1x9nVzEPdg0EHe6nwt76bbV1w2MI=
