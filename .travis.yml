@@ -20,7 +20,19 @@ jobs:
       sonarcloud:
         organization: lukasborges
         token: "${SONAR_TOKEN}"
-  - stage: Deploy
+
+  - stage: Deploy STG
+    script: skip
+    deploy:
+      provider: heroku
+      strategy: api
+      api_key: "$HEROKU_API_KEY"
+      edge: true
+      app: devopslab-lucasborges-stg
+      on:
+        branch: main
+
+  - stage: Deploy PROD
     script: skip
     deploy:
       provider: heroku
@@ -30,6 +42,7 @@ jobs:
       app: devopslab-lucasborges
       on:
         branch: main
+        
 notifications:
   slack:
     secure: LrHsn/y6jDp7J0q5kOwUhUYDIY6B6AiZc+lhR3s3ylNPJylRl1y/2p0wKvE1hlJBPxu0pKAnynAQAPS4jwi/G6wXDE/AAFZYPKraXXXeachrJUAVp44djPRcjuA74l7ec5tsIiBnlBDWZ2NkCcJDCNjw6pwuM7wmk0Pm5aIPUAqDszSwB3jIDeLD+VnlcgFmh9Bsj7Dh4V1Y46RkArGNMlHNIgFJ4Ixla/MxHGfR79JTTwRCb6ycRq1nklX7dzgdiIIn9fpoIwfURD0juuse32I0vH47kg3Vm6x8ylRan2hTzqWuMV3W1jjKJo4n+ABSw2ceUKGYtVV6YPTEg2HZGkuVz8rk/H1R8jnYpas1VzdbRO6kovJyznMZjmGDLWljIcOCDTgFc/dpxC1P9CqZX6ZVBrv76aIuXvwLrwtjny6nK8NQErbz7BFdlHhgo8djhvLQi8jdsibLh6Jsl39DiBfW5/UARCgRCxEeDcvlZs0gFJtwGobAfayOlvhhh5yart4fLfJQ+kl23gBfSqODCopTIyA4MBXDcPYA8bn/3qVuLOCs3rM46Lw2eLroA8bT27Np8qHFgtWiVxtaq6jDJF0jMtueAPcbKamQzEWqPbHNDggRU9QulDm7VkSV0/OfqGr3BJDvSu7uNNecImk/tq07NlnRhILMutMzmWlD0GI=
